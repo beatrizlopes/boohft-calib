@@ -4,7 +4,7 @@
 from __future__ import print_function
 import os
 if 'CMSSW_BASE' not in os.environ:
-    raise Exception("The scirpt need to be run in the CMSSW environment")
+    raise Exception("The script needs to be run in the CMSSW environment")
 
 import CombineHarvester.CombineTools.ch as ch
 import ROOT
@@ -90,6 +90,8 @@ for syst in shapeSysts:
     cb.cp().process(shapeSysts[syst]).AddSyst(cb, syst, 'shape', ch.SystMap()(1.0))
 
 cb.cp().AddSyst(cb, 'lumi_13TeV', 'lnN', ch.SystMap()({'2016APV': 1.012, '2016': 1.012, '2017': 1.023, '2018': 1.025}[args.year]))
+
+print(os.getcwd())
 
 for bin in bins:
     cb.cp().bin([bin]).ExtractShapes(

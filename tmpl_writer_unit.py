@@ -48,8 +48,9 @@ class TmplWriterCoffeaProcessor(processor.ProcessorABC):
         self.pt_edges = global_cfg.pt_edges + [100000]
         self.pt_reweight_edges = [edge[0] for edge in global_cfg.rwgt_pt_bins]
         self.wps = global_cfg.tagger.wps # wps in the dict format
-
+        
         self.tagger_expr = parse_tagger_expr(global_cfg.tagger_name_replace_map, global_cfg.tagger.expr)
+        self.orthogonality_cut = [parse_tagger_expr(global_cfg.tagger_name_replace_map, i) for i in global_cfg.tagger.orthogonality_cut]
         self.lookup_mc_weight = partial(lookup_pt_based_weight, self.weight_map, self.pt_reweight_edges, jet_var_maxlimit=2500.)
         self.lookup_sfbdt_weight = partial(lookup_pt_based_weight, self.sfbdt_weight_map, self.pt_reweight_edges, jet_var_maxlimit=1.)
         self.untypes = ['nominal', 'fracBCLUp', 'fracBCLDown', 'puUp', 'puDown', 'l1PreFiringUp', 'l1PreFiringDown', 'jesUp', 'jesDown', 'jerUp', 'jerDown', 'psWeightIsrUp', 'psWeightIsrDown', 'psWeightFsrUp', 'psWeightFsrDown', 'sfBDTRwgtUp']
@@ -137,6 +138,8 @@ class TmplWriterCoffeaProcessor(processor.ProcessorABC):
                 sfbdt = events_fj[f'fj_{i}_sfBDT']
             sfbdt_corr_cache = {} # prepared for JES/JER corrected version of sfBDT
             tagger = ak.numexpr.evaluate(self.tagger_expr.replace('fj_x', f'fj_{i}'), events_fj)
+            orth_cut0 = ak.numexpr.evaluate(self.orthogonality_cut[0].replace('fj_x', f'fj_{i}'), events_fj)
+            orth_cut1 = ak.numexpr.evaluate(self.orthogonality_cut[1].replace('fj_x', f'fj_{i}'), events_fj)
             tagger = np.clip(tagger, *self.global_cfg.tagger.span)
             xtagger = self.xtagger_map(tagger)
 
@@ -178,7 +181,7 @@ class TmplWriterCoffeaProcessor(processor.ProcessorABC):
 
             passwp = {}
             for wp, (lo, hi) in self.wps.items():
-                passwp[wp] = (tagger >= lo) & (tagger < hi)
+                passwp[wp] = (tagger >= lo) & (tagger < hi) & (orth_cut0>orth_cut1)
 
             # fill histograms
             for ipt, (ptmin, ptmax) in enumerate(zip(self.pt_edges[:-1], self.pt_edges[1:])):

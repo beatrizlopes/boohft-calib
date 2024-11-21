@@ -87,3 +87,4 @@ dependencies:
     - uproot3-methods==0.10.1
     - xgboost==0.72.1
     - xxhash==3.0.0
+    - cppyy

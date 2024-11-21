@@ -203,7 +203,7 @@ class CoastlineUnit(ProcessingUnit):
         x = np.linspace(tmin, tmax, nbin_hist + 1)
         y = np.maximum(hist.values(), 1e-5)
         y_cum = np.insert(np.cumsum(y / sum(y)), 0, 0.)
-        # plt.plot(x, y_cum); plt.show()
+        #plt.plot(x, y_cum); plt.show()
 
         # the tagger tranformation map is derived from the cumulative sum
         self.xtagger_map = scipy.interpolate.interp1d(x, y_cum, kind='cubic')

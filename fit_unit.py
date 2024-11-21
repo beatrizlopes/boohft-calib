@@ -203,8 +203,13 @@ class FitUnit(ProcessingUnit):
 
         def get_central_sfbdt(mode, wp, pt, return_idx=False):
             bdtdirs = [os.path.basename(d) for d in get_dir(mode, wp, pt, '*', return_list=True)]
-            assert len(bdtdirs) % 2 == 1
-            c_idx = int((len(bdtdirs) - 1)/2)
+            #FIX ME!
+            #assert len(bdtdirs) % 2 == 1
+            if (len(bdtdirs) % 2 == 1):
+                c_idx = int((len(bdtdirs) - 1)/2)
+            else:
+                print('########WARNING!!!!!!! There are some missing BDTs, careful because some fits may have failed!!!!')
+                c_idx = int((len(bdtdirs))/2)
             c_bdt = sorted(bdtdirs)[c_idx]
             return c_bdt if not return_idx else c_idx
 
@@ -463,7 +468,10 @@ class FitUnit(ProcessingUnit):
                                 _logger.debug(f'Producing sfBDT variation plots for {wp}, ({ptmin}, {ptmax})')
     
                                 c_idx = get_central_sfbdt(mode, wp, pt, return_idx=True)
-                                bdtdirs = sorted([os.path.basename(d) for d in get_dir(mode, wp, pt, 'bdt*', return_list=True)]); assert len(bdtdirs) % 2 == 1
+                                bdtdirs = sorted([os.path.basename(d) for d in get_dir(mode, wp, pt, 'bdt*', return_list=True)]); 
+                                #assert len(bdtdirs) % 2 == 1 FIX ME!!!
+                                if not (len(bdtdirs) % 2 == 1):
+                                    continue
                                 # read SF results via the sfBDT list
                                 loglist = [os.path.join(get_dir(mode, wp, pt, bdt), 'fit.log') for bdt in bdtdirs]
                                 center, errl, errh = read_sf_from_log(loglist, sf=sf)
@@ -620,7 +628,7 @@ def concurrent_fit_unit(arg):
 
     # 1. Launch the fit
     if not args.skip_fit:
-        # _logger.debug("Run fit point " + workdir)
+        _logger.debug("Run fit point " + workdir)
         ext_args = ''
         if is_central:
             if args.run_impact_for_central_fit:

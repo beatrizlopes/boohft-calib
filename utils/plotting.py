@@ -341,6 +341,8 @@ def make_sfbdt_variation_plot(center, errl, errh, c_idx, sf, outputdir, args, pl
     x_ticks = list(np.arange(len(center)))
     n_csl = int(round(np.sqrt(len(center))))
     x_ticklabels = ['' for _ in x_ticks]
+    _logger.info('length x_ticklabels: %d',len(x_ticklabels))
+    _logger.info('n csl: %d',n_csl)
     for i in range(n_csl):
         x_ticklabels[i * n_csl] = r'$c_{%d}c_{%d}$' % (i+1, 1)
         if i == n_csl - 1:

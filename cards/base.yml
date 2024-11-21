@@ -40,10 +40,10 @@ run_impact_for_central_fit: true  # when true, also run impact and uncertainty b
 run_full_unce_breakdown_for_central_fit: true  # when true, also run full uncertainty break down for the central fit, and get the unce contribution from each source
 
 # 4_fit options part C (for visualizing fit results)
-show_fitvarrwgt_unce: false  # if true, include the fit var reweighting uncertianty in the fit result and put corresponding on web
+show_fitvarrwgt_unce: true  # if true, include the fit var reweighting uncertianty in the fit result and put corresponding on web
 show_fit_number_only: false  # if true, only show the fit number on webpage
 show_unce_breakdown: true  # if true, make the uncertainty breakdown plots on web
-show_full_unce_breakdown: true  # if true, make the full uncertainty breakdown plots on web and provide the json file to retrieve the values
+show_full_unce_breakdown: false  # if true, make the full uncertainty breakdown plots on web and provide the json file to retrieve the values
 show_sfbdt_variation: true # if true, draw and show the sfBDT variation plots
 show_sfbdt_variation_norun: false # if true, only show the sfBDT variation plots without running the plots again
 show_sfbdt_variation_all_flavour: false  # if true, show all flavour plots for sfBDT variation
@@ -111,6 +111,11 @@ tagger_name_replace_map:
   # others
   FatJet_btagDeepB: fj_x_btagDeepB
   FatJet_btagHbb: fj_x_btagHbb
+  # ParT ak15
+  AK15Puppi_ParT_HbbVsQCD: fj_x_ParT_HbbVsQCD
+  AK15Puppi_ParT_HccVsQCD: fj_x_ParT_HccVsQCD
+  AK15Puppi_ParT_Hbb: fj_x_ParT_Hbb
+  AK15Puppi_ParT_Hcc: fj_x_ParT_Hcc
 
 # default working point name mapping
 default_wp_name_map:
