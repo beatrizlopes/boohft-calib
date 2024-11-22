@@ -148,7 +148,10 @@ class TmplWriterCoffeaProcessor(processor.ProcessorABC):
             if is_mc:
                 mc_weight = self.lookup_mc_weight(f'fj{i}', pt, events_fj['ht'])
                 sfbdt_weight = self.lookup_sfbdt_weight(f'fj{i}', pt, sfbdt)
-                weight_base = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeight*{lumi}', events_fj)
+                if self.global_cfg.year in ["2016APV","2016","2017","2018"]:
+                    weight_base = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeight*{lumi}', events_fj)
+                else:
+                    weight_base = ak.numexpr.evaluate(f'genWeight*xsecWeight*{lumi}', events_fj)
                 weight['nominal'] = weight_base * mc_weight
                 weight['fracBCLUp'] = weight['nominal'] * ak.numexpr.evaluate(
                     f'(fj_{i}_nbhadrons>=1) * (1.2*(fj_{i}_nbhadrons>1) + 1.2*(fj_{i}_nbhadrons<=1)) + ' + \
@@ -160,10 +163,17 @@ class TmplWriterCoffeaProcessor(processor.ProcessorABC):
                     f'((fj_{i}_nbhadrons==0) & (fj_{i}_nchadrons>=1)) * (0.8*(fj_{i}_nchadrons>1) + 0.8*(fj_{i}_nchadrons<=1)) + ' + \
                     f'((fj_{i}_nbhadrons==0) & (fj_{i}_nchadrons==0)) * (0.8)', events_fj
                 )
-                weight['puUp'] = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeightUp*l1PreFiringWeight*{lumi}', events_fj) * mc_weight
-                weight['puDown'] = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeightDown*l1PreFiringWeight*{lumi}', events_fj) * mc_weight
-                weight['l1PreFiringUp'] = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeightUp*{lumi}', events_fj) * mc_weight
-                weight['l1PreFiringDown'] = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeightDown*{lumi}', events_fj) * mc_weight
+                if self.global_cfg.year in ["2016APV","2016","2017","2018"]:
+                    weight['puUp'] = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeightUp*l1PreFiringWeight*{lumi}', events_fj) * mc_weight
+                    weight['puDown'] = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeightDown*l1PreFiringWeight*{lumi}', events_fj) * mc_weight
+                    weight['l1PreFiringUp'] = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeightUp*{lumi}', events_fj) * mc_weight
+                    weight['l1PreFiringDown'] = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeightDown*{lumi}', events_fj) * mc_weight
+                else: #FIX ME
+                    weight['puUp'] = ak.numexpr.evaluate(f'genWeight*xsecWeight*{lumi}', events_fj) * mc_weight
+                    weight['puDown'] = ak.numexpr.evaluate(f'genWeight*xsecWeight*{lumi}', events_fj) * mc_weight
+                    weight['l1PreFiringUp'] = ak.numexpr.evaluate(f'genWeight*xsecWeight*{lumi}', events_fj) * mc_weight
+                    weight['l1PreFiringDown'] = ak.numexpr.evaluate(f'genWeight*xsecWeight*{lumi}', events_fj) * mc_weight
+
                 if len(events_fj) and hasattr(events_fj, 'PSWeight') and len(events_fj.PSWeight[0]) == 4:
                     # apply PSWeight only at the final stage, while still using the nominal MC reweighting map
                     weight['psWeightIsrUp'] = weight['nominal'] * events_fj.PSWeight[:,2]

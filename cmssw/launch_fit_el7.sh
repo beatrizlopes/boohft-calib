@@ -14,4 +14,4 @@ eval `scram runtime -sh`
 
 # launch the fit
 cd $WORKDIR
-python $WORKDIR/cmssw/fit.py $@
+python $WORKDIR/cmssw/fit.py $@ --bound 0.1,20 --bound-main-poi 0.5,2.0

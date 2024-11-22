@@ -94,8 +94,13 @@ class MCReweightCoffeaProcessor(processor.ProcessorABC):
             ht_nom_fj2 = events_fj2_pt.ht
 
             # Fill the qualified fj_1 and fj_2 events separately
-            weight_nom_fj1 = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeight*{lumi}', events_fj1_pt) if is_mc else ak.ones_like(events_fj1_pt.ht)
-            weight_nom_fj2 = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeight*{lumi}', events_fj2_pt) if is_mc else ak.ones_like(events_fj2_pt.ht)
+            if self.global_cfg.year in ["2016APV","2016","2017","2018"]:
+                weight_nom_fj1 = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeight*{lumi}', events_fj1_pt) if is_mc else ak.ones_like(events_fj1_pt.ht)
+                weight_nom_fj2 = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeight*{lumi}', events_fj2_pt) if is_mc else ak.ones_like(events_fj2_pt.ht)
+            else:
+                weight_nom_fj1 = ak.numexpr.evaluate(f'genWeight*xsecWeight*{lumi}', events_fj1_pt) if is_mc else ak.ones_like(events_fj1_pt.ht)
+                weight_nom_fj2 = ak.numexpr.evaluate(f'genWeight*xsecWeight*{lumi}', events_fj2_pt) if is_mc else ak.ones_like(events_fj2_pt.ht) 
+                #missing PU weight for Run 3? Check.
             # Fill histograms for nominal case ('') and JES/JER cases; no
             for suffix in (['', '_jesUp', '_jesDown', '_jerUp', '_jerDown'] if is_mc else ['']):
                 if suffix == '':
@@ -130,8 +135,14 @@ class MCReweightCoffeaProcessor(processor.ProcessorABC):
                     events_fj2_pt_corr = events_fj2[(pt_fj2_corr >= ptmin) & (pt_fj2_corr < ptmax)]
 
                     ht_fj1, ht_fj2 = events_fj1_pt_corr[f'ht{suffix_to_branch[suffix]}'], events_fj2_pt_corr[f'ht{suffix_to_branch[suffix]}']
-                    weight_fj1 = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeight*{lumi}', events_fj1_pt_corr)
-                    weight_fj2 = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeight*{lumi}', events_fj2_pt_corr)
+
+                    if self.global_cfg.year in ["2016APV","2016","2017","2018"]:
+                        weight_fj1 = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeight*{lumi}', events_fj1_pt_corr)
+                        weight_fj2 = ak.numexpr.evaluate(f'genWeight*xsecWeight*puWeight*l1PreFiringWeight*{lumi}', events_fj2_pt_corr)
+                    else:
+                        weight_fj1 = ak.numexpr.evaluate(f'genWeight*xsecWeight*{lumi}', events_fj1_pt_corr)
+                        weight_fj2 = ak.numexpr.evaluate(f'genWeight*xsecWeight*{lumi}', events_fj2_pt_corr)
+
                 out[f'ht_fj1_pt{ptmin}to{ptmax}{suffix}'].fill(
                     dataset=dataset,
                     ht=ht_fj1,
