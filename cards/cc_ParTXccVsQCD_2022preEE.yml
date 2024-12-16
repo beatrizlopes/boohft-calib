@@ -10,12 +10,12 @@ routine_name: cc_ULNanoV9_ParTHccVsQCD_ak15_inclWP
 type: cc
 
 ## Year of the UL condition. Can be 2016APV, 2016, 2017, 2018
-year: 2018
+year: 2022preEE
 
 ## Prefix of the main samples produced from NanoHRT. $YEAR is a placeholder of year in the format above
 ## This need not be changed except for expert use.
 #sample_prefix: /eos/user/c/coli/cms-repo/boohft-calib/samples/20221126_ULNanoV9_sfbdtThres0_ak8_qcd_$YEAR
-sample_prefix: /eos/user/b/bribeiro/HadronicVH/20241023_ULNanoV9_ak15_qcd_$YEAR
+sample_prefix: /eos/user/b/bribeiro/HadronicVH/20241209_ULNanoV9_ak15_qcd_2021
 
 ## Jet pT edges to define multiple exclusive ranges for fit
 ## e.g. for edges [e1, e2, e3], will define three pT range [e1, e2), [e2, e3), [e3, +inf)
@@ -55,7 +55,7 @@ tagger:
 main_analysis_tree:
   ## path: ROOT file path of the user's signal sample. $YEAR is a placeholder of year in the format above
   ## treename: the name of the tree to read in the file
-  path: /eos/cms/store/cmst3/group/vhcc/trees/16SEP24/_$YEAR_2L/mc/zh-z2ll-h2cc_tree.root
+  path: /eos/cms/store/cmst3/group/vhcc/trees/16SEP24/_20220_2L/mc/zh-z2ll-h2cc_tree.root
   treename: Events
 
   ## The selection used for this sample applied in the user's analysis. This will ensure us to find the

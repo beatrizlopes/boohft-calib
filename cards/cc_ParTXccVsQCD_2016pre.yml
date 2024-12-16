@@ -44,7 +44,7 @@ tagger:
   ## to these WPs. Format: {name: [low, high], ...}
   ## Note: below values are taken only as an example. Please optimize and choose the WPs dedicated to
   ## the user's anlaysis
-  wps: {HP: [0.95, 1.], MP: [0.82, 1.], LP: [0.7, 1.]} # official UL WPs (for 2018)
+  wps: {HP: [0.923, 1.], MP: [0.8, 1.], LP: [0.7, 1.]} # official UL WPs (for 2018)
   orthogonality_cut: ["AK15Puppi_ParT_Hcc","AK15Puppi_ParT_Hbb"] #expression to be evaluated is orthogonality_cut[0]>orthogonality_cut[1]
 
 ########################

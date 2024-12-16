@@ -92,10 +92,10 @@ class WebMaker(object):
 <button onclick="replaceYear('2016')">2016</button>
 <button onclick="replaceYear('2017')">2017</button>
 <button onclick="replaceYear('2018')">2018</button>
-<button onclick="replaceYear('2022preEE')">2018</button>
-<button onclick="replaceYear('2022postEE')">2018</button>
-<button onclick="replaceYear('2023preBPix')">2018</button>
-<button onclick="replaceYear('2023postBPix')">2018</button>
+<button onclick="replaceYear('2022preEE')">2022preEE</button>
+<button onclick="replaceYear('2022postEE')">2022postEE</button>
+<button onclick="replaceYear('2023preBPix')">2023preBPix</button>
+<button onclick="replaceYear('2023postBPix')">2023postBPix</button>
 <script>
 function replaceYear(y) {
     location.href=location.href.replace(new RegExp('(2016APV|2016|2017|2018|2022preEE|2022postEE|2023preBPix|2023postBPix)'), y);

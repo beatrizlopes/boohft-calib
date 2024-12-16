@@ -15,7 +15,7 @@ class TagAndProbeExtendedV2(PhysicsModel):
         return ret
 
     def setPhysicsOptions(self, physOptions):
-        self._bound = (0.5, 2.)
+        self._bound = (0.1, 20.)
         self._boundMainPOI = None
         for po in physOptions[:]:
             if po.startswith("categories="):  # shorthand:  categories=cat1,cat2,cat3

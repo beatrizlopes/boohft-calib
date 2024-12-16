@@ -3,19 +3,19 @@
 ###############
 
 ## Routine name
-routine_name: cc_ULNanoV9_ParTHccVsQCD_ak15_inclWP
+routine_name: bb_ULNanoV9_ParTHbbVsQCD_ak15_inclWP
 
 ## Type of the tagger, can be 'bb', 'cc', or 'qq'. This is used in the choice of proxy - e.g. for 'bb' one use
 ## g->bb as the proxy of bb resonance signal and extract the SF from the flavour B component.
-type: cc
+type: bb
 
 ## Year of the UL condition. Can be 2016APV, 2016, 2017, 2018
-year: 2018
+year: 2023preBPix
 
 ## Prefix of the main samples produced from NanoHRT. $YEAR is a placeholder of year in the format above
 ## This need not be changed except for expert use.
 #sample_prefix: /eos/user/c/coli/cms-repo/boohft-calib/samples/20221126_ULNanoV9_sfbdtThres0_ak8_qcd_$YEAR
-sample_prefix: /eos/user/b/bribeiro/HadronicVH/20241023_ULNanoV9_ak15_qcd_$YEAR
+sample_prefix: /eos/user/b/bribeiro/HadronicVH/20241209_ULNanoV9_ak15_qcd_2023
 
 ## Jet pT edges to define multiple exclusive ranges for fit
 ## e.g. for edges [e1, e2, e3], will define three pT range [e1, e2), [e2, e3), [e3, +inf)
@@ -35,7 +35,7 @@ run_impact_for_central_fit: true  # default: true
 tagger:
   ## The variable name or expression of the tagger. Name convention same to that stored under NanoAODv9.
   ## example expression: FatJet_particleNetMD_Xbb / (FatJet_particleNetMD_Xbb + FatJet_particleNetMD_QCD)
-  expr: AK15Puppi_ParT_HccVsQCD
+  expr: AK15Puppi_ParT_HbbVsQCD
 
   ## Span of the tagger range
   span: [0., 1.]
@@ -44,8 +44,8 @@ tagger:
   ## to these WPs. Format: {name: [low, high], ...}
   ## Note: below values are taken only as an example. Please optimize and choose the WPs dedicated to
   ## the user's anlaysis
-  wps: {HP: [0.923, 1.], MP: [0.8, 1.], LP: [0.7, 1.]} # official UL WPs (for 2018)
-  orthogonality_cut: ["AK15Puppi_ParT_Hcc","AK15Puppi_ParT_Hbb"] #expression to be evaluated is orthogonality_cut[0]>orthogonality_cut[1]
+  wps: {HP: [0.95, 1.], MP: [0.82, 1.], LP: [0.7, 1.]} # official UL WPs (for 2018)
+  orthogonality_cut: ["AK15Puppi_ParT_Hbb","AK15Puppi_ParT_Hcc"] #expression to be evaluated is orthogonality_cut[0]>orthogonality_cut[1]
 
 ########################
 ## Main analysis tree ##
@@ -55,7 +55,7 @@ tagger:
 main_analysis_tree:
   ## path: ROOT file path of the user's signal sample. $YEAR is a placeholder of year in the format above
   ## treename: the name of the tree to read in the file
-  path: /eos/cms/store/cmst3/group/vhcc/trees/16SEP24/_$YEAR_2L/mc/zh-z2ll-h2cc_tree.root
+  path: /eos/cms/store/cmst3/group/vhcc/trees/16SEP24/_20230_2L/mc/zh-z2ll-h2bb_tree.root
   treename: Events
 
   ## The selection used for this sample applied in the user's analysis. This will ensure us to find the
@@ -65,7 +65,7 @@ main_analysis_tree:
   selection: (dr_ak15_hdaus<1.5)
   
   ## Name or expression of the same tagger variable defined in this tree
-  tagger: ak15_ParT_HccVsQCD
+  tagger: ak15_ParT_HbbVsQCD
 
   ## Event weight expression used in the user's analysis
   weight: genWeight*xsecWeight*puWeight

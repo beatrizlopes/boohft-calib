@@ -15,7 +15,7 @@ year: 2023postBPix
 ## Prefix of the main samples produced from NanoHRT. $YEAR is a placeholder of year in the format above
 ## This need not be changed except for expert use.
 #sample_prefix: /eos/user/c/coli/cms-repo/boohft-calib/samples/20221126_ULNanoV9_sfbdtThres0_ak8_qcd_$YEAR
-sample_prefix: /eos/user/b/bribeiro/HadronicVH/20241023_ULNanoV9_ak15_qcd_2024
+sample_prefix: /eos/user/b/bribeiro/HadronicVH/20241209_ULNanoV9_ak15_qcd_2024
 
 ## Jet pT edges to define multiple exclusive ranges for fit
 ## e.g. for edges [e1, e2, e3], will define three pT range [e1, e2), [e2, e3), [e3, +inf)

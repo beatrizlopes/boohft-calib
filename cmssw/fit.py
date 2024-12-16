@@ -114,7 +114,7 @@ with open(os.path.join(args.workdir, outputname), 'w') as fout:
     with open(os.path.join(args.workdir, outputname + '.tmp')) as f:
         for l in f:
             if 'rateParam' in l:
-                fout.write(l.replace('\n', '  [0.2,5]\n'))
+                fout.write(l.replace('\n', '  [0.5,2]\n'))
             else:
                 fout.write(l)
     os.remove(os.path.join(args.workdir, outputname + '.tmp'))
